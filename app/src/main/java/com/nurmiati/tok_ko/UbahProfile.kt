@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.util.Patterns
+import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -13,6 +15,12 @@ import androidx.cardview.widget.CardView
 import cn.pedant.SweetAlert.SweetAlertDialog
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import com.nurmiati.tok_ko.core.data.model.ResponsModel
+import com.nurmiati.tok_ko.core.data.source.ApiConfig
+import com.nurmiati.tok_ko.util.SharedPref
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class UbahProfile : AppCompatActivity() {
     lateinit var btn_kembali: ImageView
@@ -25,9 +33,11 @@ class UbahProfile : AppCompatActivity() {
     lateinit var btn_simpan: CardView
     lateinit var progress: ProgressBar
     lateinit var txt_simpan: TextView
+    lateinit var s: SharedPref
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ubah_profile)
+        s = SharedPref(this)
         setInit()
         setButton()
         cekvalidasi()
@@ -81,10 +91,45 @@ class UbahProfile : AppCompatActivity() {
             onBackPressed()
         }
         btn_simpan.setOnClickListener {
-            if (validasi()){
+            if (validasi()) {
 
             }
         }
+    }
+
+    private fun ubahpassword() {
+        val id = s.getUser()!!.id
+        val nama = e_name.text.toString()
+        val email = e_email.text.toString()
+        val phone = e_phone.text.toString()
+
+        progress.visibility = View.VISIBLE
+        txt_simpan.visibility = View.GONE
+        ApiConfig.instanceRetrofit.ubahprofile(id, nama, email, phone)
+            .enqueue(object : Callback<ResponsModel> {
+                override fun onResponse(
+                    call: Call<ResponsModel>,
+                    response: Response<ResponsModel>
+                ) {
+                    progress.visibility = View.GONE
+                    txt_simpan.visibility = View.VISIBLE
+                    val respon = response.body()!!
+                    if (respon.success == 1) {
+                        sukses("Profile anda berhasil diubah!")
+                    } else {
+                        progress.visibility = View.GONE
+                        txt_simpan.visibility = View.VISIBLE
+                        setError(respon.message)
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponsModel>, t: Throwable) {
+                    progress.visibility = View.GONE
+                    txt_simpan.visibility = View.VISIBLE
+                    Log.d("Respon", "Pesan: " + t.message)
+                    setError(t.message.toString())
+                }
+            })
     }
 
     private fun validasi(): Boolean {
@@ -134,6 +179,11 @@ class UbahProfile : AppCompatActivity() {
             .setContentText(pesan)
             .setConfirmText("Oke")
             .setConfirmClickListener {
+                s.setStatusLogin(false)
+                val intent = Intent(this, LoginActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                startActivity(intent)
+                finish()
                 it.dismissWithAnimation()
             }
             .show()

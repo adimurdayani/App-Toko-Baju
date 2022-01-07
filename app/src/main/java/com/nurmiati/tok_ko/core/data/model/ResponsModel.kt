@@ -7,6 +7,7 @@ class ResponsModel {
     var produk: ArrayList<Produk> = ArrayList()
     var transaksis: ArrayList<Transaksi> = ArrayList()
     var user: ArrayList<User> = ArrayList()
+    var produklimit: ArrayList<ProdukLimit> = ArrayList()
 
     var rajaongkir = ModelAlamat()
     var transaksi = Transaksi()

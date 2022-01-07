@@ -27,6 +27,22 @@ interface ApiService {
         @Field("fcm") fcmString: String
     ): Call<ResponsModel>
 
+    @FormUrlEncoded
+    @POST("user/ubahpassword/{id}")
+    fun ubahpassword(
+        @Path("id") id: Int,
+        @Field("password") password: String
+    ): Call<ResponsModel>
+
+    @FormUrlEncoded
+    @POST("user/ubahpassword/{id}")
+    fun ubahprofile(
+        @Path("id") id: Int,
+        @Field("name") name: String,
+        @Field("email") email: String,
+        @Field("phone") phone: String
+    ): Call<ResponsModel>
+
     @POST("checkout")
     fun checkout(
         @Body data: Checkout
@@ -38,6 +54,11 @@ interface ApiService {
     @GET("produk/kategori/{kategori_id}")
     fun produkId(
         @Path("kategori_id") kategori_id: Int
+    ): Call<ResponsModel>
+
+    @GET("produk/limit_id/{user_id}")
+    fun get_limit_id(
+        @Path("user_id") user_id: Int
     ): Call<ResponsModel>
 
     @GET("produk/kategori_nolimit/{kategori_id}")

@@ -3,8 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/grey"
+    android:orientation="vertical"
     tools:context=".DetailActivity">
 
     <androidx.appcompat.widget.Toolbar
@@ -33,10 +34,10 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_toStartOf="@id/div_notif"
                 android:layout_toEndOf="@id/btn_kembali"
                 android:fontFamily="@font/poppins_medium"
-                android:layout_toStartOf="@id/div_notif"
-                android:layout_marginEnd="10dp"
                 android:maxLines="1"
                 android:text="Nama barang"
                 android:textColor="@color/white"
@@ -252,7 +253,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppins_bold"
-                        android:text="Deskripsi"
+                        android:text="Deskripsi Produk"
                         android:textColor="@color/black"
                         android:textSize="18sp" />
 
@@ -264,6 +265,87 @@
                         android:fontFamily="@font/poppins_regular"
                         android:text="Pembelian dalam jumlah besar hubungi"
                         android:textColor="@color/black" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/poppins_bold"
+                        android:text="Toko"
+                        android:textColor="@color/black"
+                        android:textSize="18sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:cardCornerRadius="10dp"
+                            android:layout_margin="5dp"
+                            app:cardElevation="4dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:padding="3dp">
+
+                                <ImageView
+                                    android:id="@+id/img_logo"
+                                    android:layout_width="50dp"
+                                    android:layout_height="50dp"
+                                    android:src="@drawable/ic_image" />
+                            </LinearLayout>
+                        </androidx.cardview.widget.CardView>
+
+
+                        <TextView
+                            android:id="@+id/nama_toko"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="10dp"
+                            android:fontFamily="@font/poppins_medium"
+                            android:text="Nama Toko"
+                            android:textColor="@color/black"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/poppins_bold"
+                        android:text="Alamat Toko"
+                        android:textColor="@color/black"
+                        android:textSize="18sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_map" />
+
+                        <TextView
+                            android:id="@+id/alamat"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="10dp"
+                            android:fontFamily="@font/poppins_medium"
+                            android:text="Alamat Toko"
+                            android:textColor="@color/black"
+                            android:textSize="14sp" />
+                    </LinearLayout>
                 </LinearLayout>
 
                 <TextView
@@ -272,7 +354,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/poppins_bold"
-                    android:text="Produk Terkait"
+                    android:text="Produk Baru"
                     android:textColor="@color/black"
                     android:textSize="18sp" />
 
@@ -280,8 +362,10 @@
                     android:id="@+id/rc_data"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    tools:listitem="@layout/item_produk"
-                    android:layout_marginTop="10dp" />
+                    android:layout_marginTop="10dp"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    app:spanCount="2"
+                    tools:listitem="@layout/item_produk" />
             </LinearLayout>
 
         </ScrollView>
@@ -300,8 +384,8 @@
                 android:id="@+id/btn_keranjang"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_marginEnd="16dp"
                 android:layout_gravity="center_vertical"
+                android:layout_marginEnd="16dp"
                 android:background="?android:attr/selectableItemBackground"
                 android:clickable="true"
                 android:focusable="true"

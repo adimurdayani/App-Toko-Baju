@@ -15,7 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Tokko"
         android:usesCleartextTraffic="true">
-        <activity android:name=".SuksesActivity"></activity>
+        <activity android:name=".AllProduk"></activity>
+        <activity android:name=".DetailProduk" />
+        <activity android:name=".SuksesActivity" />
         <activity android:name=".ListAlamat" />
         <activity android:name=".DetailRiwayatActivity" />
         <activity android:name=".PembayaranActivity" />

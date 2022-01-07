@@ -17,6 +17,7 @@ import cn.pedant.SweetAlert.SweetAlertDialog
 import com.google.gson.Gson
 import com.nurmiati.tok_ko.core.data.adapter.AdapterProduk
 import com.nurmiati.tok_ko.core.data.model.Produk
+import com.nurmiati.tok_ko.core.data.model.ProdukLimit
 import com.nurmiati.tok_ko.core.data.model.ResponsModel
 import com.nurmiati.tok_ko.core.data.room.MyDatabase
 import com.nurmiati.tok_ko.core.data.source.ApiConfig
@@ -41,10 +42,14 @@ class DetailActivity : AppCompatActivity() {
     lateinit var btn_keranjang: ImageView
     lateinit var btn_notifikasi: ImageView
     private lateinit var btn_beli: LinearLayout
+    lateinit var produkLimit: ProdukLimit
     lateinit var produk: Produk
     lateinit var myDb: MyDatabase
     lateinit var div_angka: RelativeLayout
     lateinit var tv_angka: TextView
+    lateinit var img_logo: ImageView
+    lateinit var nama_toko: TextView
+    lateinit var tv_alamat: TextView
     lateinit var rc_data: RecyclerView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,7 +81,7 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun getProduk() {
-        ApiConfig.instanceRetrofit.produkId(1).enqueue(object : Callback<ResponsModel> {
+        ApiConfig.instanceRetrofit.produkIdAll(1).enqueue(object : Callback<ResponsModel> {
             override fun onResponse(
                 call: Call<ResponsModel>,
                 response: Response<ResponsModel>
@@ -99,18 +104,29 @@ class DetailActivity : AppCompatActivity() {
 
     private fun getDetail() {
         val data = intent.getStringExtra("extra")
+        produkLimit = Gson().fromJson<ProdukLimit>(data, ProdukLimit::class.java)
         produk = Gson().fromJson<Produk>(data, Produk::class.java)
 
-        txt_namaproduk.text = produk.name
-        txt_hargaproduk.text = Helper().formatRupiah(produk.harga)
-        txt_deskripsi.text = produk.deskripsi
-        namabarang.text = produk.name
-        val imageUrl = Util.produkUrl + produk.image
+        txt_namaproduk.text = produkLimit.name
+        nama_toko.text = produkLimit.nama_toko
+        txt_hargaproduk.text = Helper().formatRupiah(produkLimit.harga)
+        tv_alamat.text = produkLimit.user.alamat
+        txt_deskripsi.text = produkLimit.deskripsi
+        namabarang.text = produkLimit.name
+        val imageUrl = Util.produkUrl + produkLimit.image
+        val logo_image = Util.logoToko + produkLimit.user.image
+
         Picasso.get()
             .load(imageUrl)
             .placeholder(R.drawable.ic_image)
             .error(R.drawable.ic_image)
             .into(image)
+
+        Picasso.get()
+            .load(logo_image)
+            .placeholder(R.drawable.ic_image)
+            .error(R.drawable.ic_image)
+            .into(img_logo)
 
         btn_keranjang.setOnClickListener {
             val produkData = myDb.daoKeranjang().getProduk(produk.id)
@@ -180,6 +196,9 @@ class DetailActivity : AppCompatActivity() {
         tv_angka = findViewById(R.id.tv_angka)
         btn_beli = findViewById(R.id.btn_beli1)
         rc_data = findViewById(R.id.rc_data)
+        img_logo = findViewById(R.id.img_logo)
+        nama_toko = findViewById(R.id.nama_toko)
+        tv_alamat = findViewById(R.id.alamat)
     }
 
     private fun setError(pesan: String) {

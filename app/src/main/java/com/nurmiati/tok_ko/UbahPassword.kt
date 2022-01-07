@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
+import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -12,7 +14,12 @@ import androidx.cardview.widget.CardView
 import cn.pedant.SweetAlert.SweetAlertDialog
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import com.nurmiati.tok_ko.core.data.model.ResponsModel
+import com.nurmiati.tok_ko.core.data.source.ApiConfig
 import com.nurmiati.tok_ko.util.SharedPref
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class UbahPassword : AppCompatActivity() {
     lateinit var btn_kembali: ImageView
@@ -23,9 +30,11 @@ class UbahPassword : AppCompatActivity() {
     lateinit var btn_simpan: CardView
     lateinit var progress: ProgressBar
     lateinit var txt_register: TextView
+    lateinit var s: SharedPref
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ubah_password)
+        s = SharedPref(this)
         setInit()
         setButton()
         cekvalidasi()
@@ -72,10 +81,43 @@ class UbahPassword : AppCompatActivity() {
             onBackPressed()
         }
         btn_simpan.setOnClickListener {
-            if (validasi()){
-
+            if (validasi()) {
+                ubahpassword()
             }
         }
+    }
+
+    private fun ubahpassword() {
+        val id = s.getUser()!!.id
+        val password = e_password.text.toString()
+
+        progress.visibility = View.VISIBLE
+        txt_register.visibility = View.GONE
+        ApiConfig.instanceRetrofit.ubahpassword(id, password)
+            .enqueue(object : Callback<ResponsModel> {
+                override fun onResponse(
+                    call: Call<ResponsModel>,
+                    response: Response<ResponsModel>
+                ) {
+                    progress.visibility = View.GONE
+                    txt_register.visibility = View.VISIBLE
+                    val respon = response.body()!!
+                    if (respon.success == 1) {
+                        sukses("Password anda berhasil diubah!")
+                    } else {
+                        progress.visibility = View.GONE
+                        txt_register.visibility = View.VISIBLE
+                        setError(respon.message)
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponsModel>, t: Throwable) {
+                    progress.visibility = View.GONE
+                    txt_register.visibility = View.VISIBLE
+                    Log.d("Respon", "Pesan: " + t.message)
+                    setError(t.message.toString())
+                }
+            })
     }
 
     private fun validasi(): Boolean {
@@ -127,7 +169,6 @@ class UbahPassword : AppCompatActivity() {
             .setContentText(pesan)
             .setConfirmText("Oke")
             .setConfirmClickListener {
-                val s = SharedPref(this)
                 s.setStatusLogin(false)
                 val intent = Intent(this, LoginActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK)

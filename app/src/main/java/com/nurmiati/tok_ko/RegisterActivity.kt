@@ -79,8 +79,8 @@ class RegisterActivity : AppCompatActivity() {
     private fun register() {
         nama = e_nama.text.toString()
         email = e_email.text.toString()
-        password = e_password.text.toString()
         phone = e_phone.text.toString()
+        password = e_password.text.toString()
 
         progres.visibility = View.VISIBLE
         txt_register.visibility = View.GONE

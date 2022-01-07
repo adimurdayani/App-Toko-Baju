@@ -25,6 +25,7 @@ public class Produk implements Serializable {
     public String stok;
     public String berat;
     public int user_id;
+    public String nama_toko;
 
     public int jumlah = 1;
     public boolean selected = true;

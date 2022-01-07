@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:shimmer="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:shimmer="http://schemas.android.com/tools"
     android:background="@color/grey"
     android:orientation="vertical">
 
@@ -11,8 +11,8 @@
         android:id="@+id/shimmer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
         android:background="@color/white"
+        android:visibility="gone"
         shimmer:duration="3000">
 
         <LinearLayout
@@ -38,8 +38,34 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_margin="10dp">
+                android:layout_margin="10dp"
+                android:background="@drawable/bg_search2"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <ImageView
+                    android:id="@+id/search_data"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginEnd="10dp"
+                    android:src="@drawable/ic_search" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="Search data"
+                    android:textColor="@color/grey5"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:orientation="vertical">
 
                 <com.smarteist.autoimageslider.SliderView
                     android:id="@+id/imageSlider"
@@ -67,7 +93,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins_bold"
-                    android:text="Nama Toko"
+                    android:text="Nurul Hijab"
                     android:textColor="@color/black"
                     android:textSize="18sp" />
 
@@ -89,12 +115,15 @@
             <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
                 android:id="@+id/sw_data1"
                 android:layout_width="match_parent"
-                android:layout_height="250dp">
+                android:layout_height="230dp">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rc_data"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    android:orientation="horizontal"
+                    shimmer:listitem="@layout/item_produk" />
             </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
             <RelativeLayout
@@ -107,7 +136,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins_bold"
-                    android:text="Nama Toko"
+                    android:text="Yuki Hijab"
                     android:textColor="@color/black"
                     android:textSize="18sp" />
 
@@ -129,7 +158,10 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rc_data2"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                android:orientation="horizontal"
+                shimmer:listitem="@layout/item_produk" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -141,7 +173,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins_bold"
-                    android:text="Nama Toko"
+                    android:text="Irlana Shop"
                     android:textColor="@color/black"
                     android:textSize="18sp" />
 
@@ -163,7 +195,10 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rc_data3"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                shimmer:listitem="@layout/item_produk" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -175,7 +210,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins_bold"
-                    android:text="Nama Toko"
+                    android:text="Hijacu Hijab"
                     android:textColor="@color/black"
                     android:textSize="18sp" />
 
@@ -197,7 +232,10 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rc_data4"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                shimmer:listitem="@layout/item_produk" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -209,7 +247,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins_bold"
-                    android:text="Nama Toko"
+                    android:text="Lady Fashion"
                     android:textColor="@color/black"
                     android:textSize="18sp" />
 
@@ -231,7 +269,10 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rc_data5"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                shimmer:listitem="@layout/item_produk" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

@@ -25,7 +25,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class RiwayatFragment : Fragment(){
+class RiwayatFragment : Fragment() {
     lateinit var search: SearchView
     lateinit var total_list: TextView
     lateinit var sw_data: SwipeRefreshLayout
@@ -35,16 +35,23 @@ class RiwayatFragment : Fragment(){
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view:  View = inflater.inflate(R.layout.fragment_riwayat, container, false)
+        val view: View = inflater.inflate(R.layout.fragment_riwayat, container, false)
         setInit(view)
-        getRiwayat()
+        setDisplay()
         return view
+    }
+
+    private fun setDisplay() {
+        sw_data.setOnRefreshListener {
+            getRiwayat()
+        }
     }
 
     private fun getRiwayat() {
         val id = SharedPref(requireActivity()).getUser()?.id
         sw_data.isRefreshing = true
         if (id != null) {
+            sw_data.isRefreshing = false
             ApiConfig.instanceRetrofit.getRiwayat(id).enqueue(object : Callback<ResponsModel> {
                 override fun onResponse(
                     call: Call<ResponsModel>,
@@ -53,8 +60,10 @@ class RiwayatFragment : Fragment(){
                     sw_data.isRefreshing = false
                     val res = response.body()
                     if (res!!.success == 1) {
+                        sw_data.isRefreshing = false
                         displayRiwayat(res.transaksis)
                     } else {
+                        sw_data.isRefreshing = false
                         Log.d("Respon", "Error: " + res.message)
                         setError(response.message())
                     }
@@ -85,10 +94,6 @@ class RiwayatFragment : Fragment(){
 
         })
         rc_data.layoutManager = layoutManager
-
-        sw_data.setOnRefreshListener {
-            getRiwayat()
-        }
 
         val adapter = AdapterRiwayat(array, object : AdapterRiwayat.Listeners {
             override fun onClicked(data: Transaksi) {
