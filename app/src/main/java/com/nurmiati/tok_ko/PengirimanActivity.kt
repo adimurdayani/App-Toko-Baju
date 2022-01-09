@@ -127,6 +127,7 @@ class PengirimanActivity : AppCompatActivity() {
 
     private fun setSpinner() {
         val arrayString = ArrayList<String>()
+        arrayString.add("Pilih Kurir")
         arrayString.add("JNE")
         arrayString.add("POS")
         arrayString.add("TIKI")
@@ -142,6 +143,7 @@ class PengirimanActivity : AppCompatActivity() {
                     id: Long
                 ) {
                     if (position != 0) {
+                        Log.d("Response", "Kurir: " + sp_metode.selectedItem.toString())
                         getOngkir(sp_metode.selectedItem.toString())
                     }
                 }
@@ -169,7 +171,7 @@ class PengirimanActivity : AppCompatActivity() {
                 getalamat.alamat + ", " + getalamat.kota + ", " + getalamat.kodepos + ", (" + getalamat.type + ")"
             btn_teksalamat.text = "Ubah Alamat"
 
-            getOngkir("JNE")
+//            getOngkir("")
         } else {
 
             div_layout.visibility = View.GONE
@@ -183,7 +185,7 @@ class PengirimanActivity : AppCompatActivity() {
 
     fun getOngkir(kurir: String) {
         val alamat = myDb.daoAlamat().getBystatus(true)
-        val origin = "501"
+        val origin = "328"
         val destination = "" + alamat?.id_kota.toString()
         val berat = 1000
 
