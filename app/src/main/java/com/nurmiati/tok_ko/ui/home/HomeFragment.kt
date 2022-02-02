@@ -104,12 +104,17 @@ class HomeFragment : Fragment() {
             ) {
                 sw_data1.isRefreshing = false
                 shimmerFrameLayout.visibility = View.GONE
-                val res = response.body()!!
-                if (res.success == 1) {
-                    listProduk1 = res.produklimit
-                    setDisplay()
+                if (response.body() == null) {
+                    sw_data1.isRefreshing = false
+                    shimmerFrameLayout.visibility = View.GONE
                 } else {
-                    setError(res.message)
+                    val res = response.body()!!
+                    if (res.success == 1) {
+                        listProduk1 = res.produklimit
+                        setDisplay()
+                    } else {
+                        setError(res.message)
+                    }
                 }
             }
 
@@ -237,28 +242,33 @@ class HomeFragment : Fragment() {
     private fun setButton() {
         btn_all.setOnClickListener {
             val toko1 = Intent(requireActivity(), DetailProduk::class.java)
-            toko1.putExtra("user_id",13)
+            toko1.putExtra("user_id", 13)
             startActivity(toko1)
+            requireActivity().finish()
         }
         btn_all2.setOnClickListener {
-            val toko2= Intent(requireActivity(), DetailProduk::class.java)
-            toko2.putExtra("user_id",14)
+            val toko2 = Intent(requireActivity(), DetailProduk::class.java)
+            toko2.putExtra("user_id", 14)
             startActivity(toko2)
+            requireActivity().finish()
         }
         btn_all3.setOnClickListener {
             val toko3 = Intent(requireActivity(), DetailProduk::class.java)
-            toko3.putExtra("user_id",15)
+            toko3.putExtra("user_id", 15)
             startActivity(toko3)
+            requireActivity().finish()
         }
         btn_all4.setOnClickListener {
             val toko4 = Intent(requireActivity(), DetailProduk::class.java)
-            toko4.putExtra("user_id",16)
+            toko4.putExtra("user_id", 16)
             startActivity(toko4)
+            requireActivity().finish()
         }
         btn_all5.setOnClickListener {
             val toko5 = Intent(requireActivity(), DetailProduk::class.java)
-            toko5.putExtra("user_id",17)
+            toko5.putExtra("user_id", 17)
             startActivity(toko5)
+            requireActivity().finish()
         }
 
         search_data.setOnClickListener {
